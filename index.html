@@ -1,0 +1,29 @@
+<!doctype html>
+<html>
+	<head>
+		<link rel="stylesheet" type="text/css" href="./css/main.css">
+		<script src="js/libs/modernizr-2.6.2.min.js"></script>
+		<script src="js/libs/html5slider.js"></script>
+		<script data-main="js/app.js" src="js/require.js"></script>
+	</head>
+
+	<body>
+		<div id="wrapper">
+			<div id="canvasWrapper">
+				<canvas id="canvasID" width="1024" height="640">canvas not available in this browser</canvas>
+			</div>
+			<div id="controls">
+				<button id="playPause">pause</button>
+				<div id="selectButton">
+					<select id="primitives">
+					</select>
+				</div>
+				<span class="sliderText">focal</span><input id="focalSlider" type="range" min="170" max="500" value="300" />
+				<span class="sliderText">z offset</span><input id="zOffsetSlider" type="range" min="-50" max="200" value="0" />
+				<span class="fpsCounter">FPS : </span><span id="fpsCounterNb" class="fpsCounter"></span>
+			</div>
+			
+		</div>
+
+	</body>
+</html>
