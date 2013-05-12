@@ -47,11 +47,55 @@ require(
 			container,
 			centerX,
 			centerY,
+			pitch = 300,
+			yaw = 300,
+			roll = 200,
 			a3DObjects = [],
 			primitiveName = [],
 			primitive = 0,
 			playState = true;
 
+
+		function handleTick() {
+
+			if(playState) {
+				matriceDeRotation.setAngle((pitch - centerY) / 50);
+				mesh.transformMesh(matriceDeRotation.pitch);
+		
+				matriceDeRotation.setAngle(-(yaw - centerX) / 50);
+				mesh.transformMesh(matriceDeRotation.yaw);
+					
+				matriceDeRotation.setAngle(roll / 250);
+				mesh.transformMesh(matriceDeRotation.roll);
+				
+				surface3D.render();
+
+				stage.update();
+
+				$('#fpsCounterNb').text(createjs.Ticker.getMeasuredFPS().toFixed(3));
+				
+				container.graphics.clear();
+			}
+		}
+
+		window.requestAnimFrame = ( function () {
+			return  window.requestAnimationFrame       || 
+					window.webkitRequestAnimationFrame || 
+					window.mozRequestAnimationFrame    || 
+					window.oRequestAnimationFrame      || 
+					window.msRequestAnimationFrame     || 
+					function(/* function */ callback, /* DOMElement */ element){
+						window.setTimeout(callback, 1000 / 60);
+					};
+		})();
+
+
+		$.getJSON('data/data.json', function (data) {
+
+			make3DObjects(data);
+			makeControls();
+			init();
+		});
 
 		function make3DObjects(jsonData) {
 			
@@ -82,40 +126,11 @@ require(
 			}
 		}
 
-		function handleTick() {
+		function makeControls() {
 
-			if(playState) {
-				matriceDeRotation.setAngle((300 - centerY) / 50);
-				mesh.transformMesh(matriceDeRotation.pitch);
-		
-				matriceDeRotation.setAngle(-(300 - centerX) / 50);
-				mesh.transformMesh(matriceDeRotation.yaw);
-					
-				surface3D.render();
-
-				stage.update();
-				$('#fpsCounterNb').text(createjs.Ticker.getMeasuredFPS().toFixed(3));
-				container.graphics.clear();
-			}
-		}
-
-		window.requestAnimFrame = ( function () {
-			return  window.requestAnimationFrame       || 
-					window.webkitRequestAnimationFrame || 
-					window.mozRequestAnimationFrame    || 
-					window.oRequestAnimationFrame      || 
-					window.msRequestAnimationFrame     || 
-					function(/* function */ callback, /* DOMElement */ element){
-						window.setTimeout(callback, 1000 / 60);
-					};
-		})();
-
-
-		$.getJSON('data/data.json', function (data) {
-			make3DObjects(data);
 			createSelectButton();
-			init();
-		});
+			setUpControls();
+		}
 
 		function createSelectButton() {
 			
@@ -129,6 +144,29 @@ require(
 				var val = $(this).val();
 				putObjectToScene(val);
 			});
+		}
+
+		function setUpControls() {
+
+			$('#focalSlider').on('change', function (e) {
+  				mesh.changeFocal(parseInt($(this).val()));
+  			});
+
+  			$('#zOffsetSlider').on('change', function (e) {
+  				mesh.changeOffsetZ(parseInt($(this).val()));
+  			});
+
+  			$('#pitchSlider').on('change', function (e) {
+  				pitch = (parseInt($(this).val()));
+  			});
+
+  			$('#yawSlider').on('change', function (e) {
+  				yaw = (parseInt($(this).val()));
+  			});
+
+  			$('#rollSlider').on('change', function (e) {
+  				roll = (parseInt($(this).val()));
+  			});
 		}
 
 		function init() {
@@ -162,24 +200,10 @@ require(
 			surface3D.setContainer(container);
 			surface3D.addmesh(mesh);
 
-			$('#focalSlider').on('change', function (e) {
-  				mesh.changeFocal(parseInt($(this).val()));
-  			});
-
-  			$('#zOffsetSlider').on('change', function (e) {
-  				mesh.changeOffsetZ(parseInt($(this).val()));
-  			});
-
-			// createjs.Ticker.useRAF = true;
+			createjs.Ticker.useRAF = true;
 			createjs.Ticker.setFPS(30);
 			createjs.Ticker.addEventListener("tick", handleTick);
 			
 		}
 	});
 });
-
-
-
-
-
-	
