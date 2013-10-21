@@ -1,7 +1,6 @@
 define( function () {
 
 	function Matrix3D() {
-
 		this.roll  = [];
 		this.pitch = [];
 		this.yaw   = [];
@@ -11,8 +10,7 @@ define( function () {
 			sin = 0, 
 			agl = 0; // radian angle
 		
-		this.setMatrix3D = function () {
-			
+		this.setMatrix3D = function () {			
 			this.roll  = [[cos, -sin, 0, 0],
 					      [sin,  cos, 0, 0],
 					      [0,    0  , 1, 0],
@@ -30,7 +28,6 @@ define( function () {
 		};
 		
 		this.setAngle = function (agl) {
-
 			agl = agl * (Math.PI/180);
 			cos = Math.cos(agl);
 			sin = Math.sin(agl);
