@@ -149,7 +149,8 @@ define(function (require) {
             this.surface3D.addmesh(this.mesh);
 
             createjs.Ticker.useRAF = true;
-            createjs.Ticker.setFPS(30);
+            createjs.Ticker.framerate = 45;
+            createjs.Ticker.removeAllEventListeners();
             createjs.Ticker.addEventListener("tick", this.closure(this.handleTick, this)); // this.closure() is need to not lose scope
             // createjs.Ticker.addEventListener("tick", this.handleTick);
         };

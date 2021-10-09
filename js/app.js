@@ -6,7 +6,7 @@ require.config({
             '../libs/jquery-1.9.1.min' // path fallback
         ],
         'lodash': '../libs/lodash.min',
-        'easel': '../libs/easeljs-0.6.0.min'
+        'easel': '../libs/easeljs-1.0.0.min'
     },
     shim: {
         'easel': {
